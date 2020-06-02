@@ -1,6 +1,6 @@
 #!/usr/bin/env python
 # -*- coding: utf-8 -*-
-
+import datetime
 import logging
 import sys
 
@@ -77,6 +77,11 @@ class CHWriter(Writer):
                     # we need to convert Decimal value to str value for suitable for table structure
                     if type(row[key]) == Decimal:
                         row[key] = str(row[key])
+                    elif type(row[key]) == datetime.timedelta:
+                        row[key] = str(row[key])
+                    elif type(row[key]) == bytes:
+                        row[key] = '0x' + str.upper(row[key].hex())
+
                 rows.append(row)
 
         logging.debug('class:%s insert %d row(s)', __class__, len(rows))
